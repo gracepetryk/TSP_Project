@@ -6,9 +6,12 @@ Simple class encoding the network of points into a data structure
 
 import math
 import typing
+from typing import List, Tuple
 
 
 class PointNetwork:
+
+    points: List[Tuple[int, int]]
 
     def __init__(self, file_name):
         """

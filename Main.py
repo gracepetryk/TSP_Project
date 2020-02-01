@@ -9,7 +9,7 @@ import typing
 # CONSTANTS #
 #############
 
-TIMING_PRECISION = 5
+TIMING_PRECISION = 10
 DISTANCE_PRECISION = 3
 
 
