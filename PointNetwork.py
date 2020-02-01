@@ -23,17 +23,6 @@ class PointNetwork:
             point = line.split(' ')
             self.points.append((int(point[0]), int(point[1])))
 
-    def find_length(self, point_order):
-        """
-        finds the total length of a given path
-        """
-
-        length = 0
-        for i in range(0, self.numPoints - 1):
-            length += find_distance(self.points[point_order[i]],
-                                    self.points[point_order[i + 1]])
-        return length
-
     def path_str(self, point_order):
         """
         :returns a string representation of a given path with the length on the first line and each point in order

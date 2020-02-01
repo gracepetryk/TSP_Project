@@ -32,25 +32,38 @@ def generate_permutations(l: list) -> typing.List[typing.List[any]]:
         return permutations
 
 
-def exhaustive_search(point_network: PointNetwork):
+def find_length(pn: PointNetwork.PointNetwork, point_order):
+    """
+    finds the total length of a given point order
+    """
+
+    length = 0
+    for i in range(0, pn.numPoints - 1):
+        length += PointNetwork.find_distance(pn.points[point_order[i]],
+                                pn.points[point_order[i + 1]])
+    return length
+
+
+def exhaustive_search(point_network: PointNetwork.PointNetwork) -> typing.List[(int, int)]:
     index_permutations = generate_permutations(list(range(point_network.numPoints)))
 
     best_score = -1
-    best_path = []
+    best_path_indices = []
 
     for permutation in index_permutations:
-        score = point_network.find_length(permutation)
+        score = find_length(point_network, permutation)
 
         if best_score < 0:
             # handle first case
             best_score = score
-            best_path = permutation
+            best_path_indices = permutation
         else:
             if score < best_score:
                 best_score = score
-                best_path = permutation
+                best_path_indices = permutation
 
-    print(point_network.path_str(best_path))
+    best_path = []
+    for i in best_path_indices:
+        best_path.append(point_network.points[i])
 
-
-print(generate_permutations([1, 2, 3]))
+    return best_path
