@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import ExhaustiveSearch
 import NearestNeighbor
 import PointNetwork as pn
@@ -39,7 +41,6 @@ parser.add_argument("FILE", help='the file where the network is stored')
 
 args = parser.parse_args()
 
-
 ########
 # MAIN #
 ########
@@ -49,15 +50,22 @@ point_network = pn.PointNetwork(args.FILE)
 if args.exhaustive:
     exhaustiveStartTime = time.time()
 
-    print_path(ExhaustiveSearch.exhaustive_search(point_network))
+    best_path = ExhaustiveSearch.exhaustive_search(point_network)
 
     exhaustiveTime = round(time.time() - exhaustiveStartTime, TIMING_PRECISION)
+
+    if best_path is None:
+        # abort program if user decides number of nodes is too long
+        print("Aborting...")
+        exit()
+
+    print_path(best_path)
 
     if args.timing:
         print("Exhaustive search execution time: {0}s".format(exhaustiveTime))
 
     if args.nearest:
-        print("\n")  # if nearest neighbors is also enabled print 2 newlines to separate
+        print("\n")  # If nearest neighbors is also enabled print 2 newlines to separate
 
 if args.nearest:
     nearestStartTime = time.time()

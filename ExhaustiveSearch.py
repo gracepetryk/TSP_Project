@@ -2,7 +2,7 @@ import PointNetwork
 import typing
 
 
-def exhaustive_search(pn: PointNetwork.PointNetwork) -> typing.List[typing.Tuple[int, int]]:
+def exhaustive_search(pn: PointNetwork.PointNetwork) -> typing.List[typing.Tuple[int, int]] or None:
     """
     finds all n! permutations of points
     
@@ -11,6 +11,13 @@ def exhaustive_search(pn: PointNetwork.PointNetwork) -> typing.List[typing.Tuple
     :param pn: point network to search
     :return: the shortest path through the network
     """
+
+    if pn.numPoints > 10:
+        input_char = input("WARNING: This algorithm runs in O(n!) time. The current number of nodes is {0}, "
+                           "this will take VERY long to run. Are you sure you want to continue? [y/N]: "
+                           .format(pn.numPoints))
+        if input_char.lower() != 'y':
+            return None
 
     best_dict = {'path': [], 'distance': None}  # need to use a dict because inner functions cant modify outer vars
 
