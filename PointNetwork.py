@@ -57,6 +57,8 @@ def find_length(points: typing.List[typing.Tuple[int, int]], point_order=None):
     for i in range(0, len(points) - 1):
         length += find_distance(points[point_order[i]],
                                 points[point_order[i + 1]])
+
+    length += find_distance(points[0], points[-1])  # include last point to first point
     return length
 
 

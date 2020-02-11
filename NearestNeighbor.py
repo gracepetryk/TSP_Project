@@ -4,24 +4,25 @@ import typing
 
 def find_nearest_neighbor_path(pn: PointNetwork.PointNetwork) -> typing.List[typing.Tuple[int, int]]:
 
-    # store a copy of the reversed point list, so that we start with the first item in the list
-    points = pn.points[::-1]
-    path = [points.pop()]
+    # store a copy of the point list, so that we start with the first item in the list
+    path = [pn.points[0]]
+    next_index = 1
 
-    while len(points) > 0:
-        current_point = path[-1]  # take the last point from the path as the current point
+    while next_index < len(pn.points):
+        best_score = None
+        best_index = 1
+        for i in range(next_index, len(pn.points)):
+            score = PointNetwork.find_distance(path[-1], pn.points[i])
+            if best_score is None or score < best_score:
+                best_score = score
+                best_index = i
 
-        best_distance = None
-        best_point_index = None
+        path.append(pn.points[best_index])
 
-        for i in range(len(points)):
-            distance = PointNetwork.find_distance(current_point, points[i])
-            if best_distance is None or distance < best_distance:
-                best_distance = distance
-                best_point_index = i
+        # swap best point and next point in list
+        pn.points[next_index], pn.points[best_index] = pn.points[best_index], pn.points[next_index]
 
-        # swap last and best point and pop
-        points[-1], points[best_point_index] = points[best_point_index], points[-1]
-        path.append(points.pop())
+        # advance next
+        next_index += 1
 
     return path
